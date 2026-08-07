@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Real Times · Newspaper Archive</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f8f6f3;
+            color: #1e1e1e;
+            line-height: 1.6;
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem 3rem;
+        }
+
+        /* ----- header / brand (consistent) ----- */
+        .brand-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0 1.2rem;
+            border-bottom: 2px solid #d4c9bc;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo-icon {
+            font-size: 2.4rem;
+            color: #8b2f2f;
+            background: #f0e8df;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #1f1a16;
+        }
+
+        .logo-text span {
+            color: #8b2f2f;
+            font-weight: 300;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            background: #e6ded5;
+            padding: 0.35rem 1.2rem;
+            border-radius: 40px;
+            color: #2d241e;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* page title */
+        .page-title {
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f1a16;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .page-title h1 i {
+            color: #8b2f2f;
+        }
+
+        .page-title p {
+            color: #4d3f36;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-top: 0.2rem;
+        }
+
+        .page-title .archive-badge {
+            background: #e6ded5;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 0.3rem;
+        }
+
+        /* newspaper grid */
+        .newspaper-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 1.5rem 0 2.5rem;
+        }
+
+        .newspaper-card {
+            background: #ffffff;
+            border-radius: 32px;
+            border: 1px solid #ece4db;
+            padding: 1.8rem 1.8rem 1.8rem;
+            transition: 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .newspaper-card:hover {
+            border-color: #b8a192;
+            box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.06);
+            transform: translateY(-3px);
+        }
+
+        .newspaper-card .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .newspaper-card .card-header .edition-icon {
+            font-size: 2.2rem;
+            color: #8b2f2f;
+            background: #f4eee8;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .newspaper-card .card-header .edition-info {
+            flex: 1;
+        }
+
+        .newspaper-card .card-header .edition-info h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f1a16;
+            line-height: 1.2;
+        }
+
+        .newspaper-card .card-header .edition-info .date {
+            font-size: 0.85rem;
+            color: #5f4f42;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .newspaper-card .description {
+            color: #3f352e;
+            font-size: 0.95rem;
+            margin: 0.3rem 0 0.8rem;
+            flex: 1;
+        }
+
+        .newspaper-card .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 1.2rem;
+            font-size: 0.8rem;
+            color: #5f4f42;
+            margin: 0.3rem 0 1rem;
+            padding-top: 0.4rem;
+            border-top: 1px solid #f0e8df;
+        }
+
+        .newspaper-card .meta span i {
+            color: #8b2f2f;
+            width: 1.2rem;
+        }
+
+        .newspaper-card .download-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+            margin-top: auto;
+            padding-top: 0.8rem;
+            border-top: 1px solid #ece4db;
+        }
+
+        .newspaper-card .download-row .file-size {
+            font-size: 0.8rem;
+            color: #5f4f42;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #8b2f2f;
+            color: white;
+            font-weight: 600;
+            padding: 0.6rem 1.6rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(139, 47, 47, 0.2);
+        }
+
+        .btn-download:hover {
+            background: #6f2323;
+            transform: scale(1.02);
+            box-shadow: 0 6px 16px rgba(139, 47, 47, 0.3);
+        }
+
+        .btn-download i {
+            font-size: 1rem;
+        }
+
+        /* download all section */
+        .download-all {
+            background: #f4eee8;
+            border-radius: 48px;
+            padding: 1.8rem 2.5rem;
+            margin: 2rem 0 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .download-all .info h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1f1a16;
+        }
+
+        .download-all .info p {
+            color: #3f352e;
+            font-size: 0.95rem;
+        }
+
+        .btn-download-all {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #1f1a16;
+            color: white;
+            font-weight: 600;
+            padding: 0.8rem 2.2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-download-all:hover {
+            background: #3f352e;
+            transform: scale(1.02);
+        }
+
+        /* footer */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #d4c9bc;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            color: #3f352e;
+        }
+
+        .footer .social i {
+            font-size: 1.5rem;
+            margin-left: 1rem;
+            color: #5f4f42;
+            transition: 0.2s;
+            cursor: default;
+        }
+
+        .footer .social i:hover {
+            color: #8b2f2f;
+        }
+
+        /* responsive */
+        @media (max-width: 700px) {
+            .page {
+                padding: 1rem 1rem 2rem;
+            }
+            .logo-text {
+                font-size: 1.7rem;
+            }
+            .brand-header {
+                flex-direction: column;
+                align-items: start;
+                gap: 0.6rem;
+            }
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            .newspaper-grid {
+                grid-template-columns: 1fr;
+            }
+            .download-all {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .newspaper-card .download-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-download {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+
+        <!-- header -->
+        <header class="brand-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="logo-text">
+                    The Real <span>Times</span>
+                </div>
+            </div>
+            <div class="tagline">
+                <i class="fas fa-archive" style="color:#8b2f2f;"></i> Digital archive · Zambia
+            </div>
+        </header>
+
+        <!-- page title -->
+        <div class="page-title">
+            <h1>
+                <i class="fas fa-newspaper"></i> Newspaper Archive
+            </h1>
+            <p>
+                Browse and download past editions of <strong>The Real Times</strong>.
+                All editions are available as high-quality PDFs.
+            </p>
+            <div class="archive-badge">
+                <i class="fas fa-check-circle" style="color:#8b2f2f;"></i> 12 editions available
+            </div>
+        </div>
+
+        <!-- NEWSPAPER LIST -->
+        <div class="newspaper-grid">
+
+            <!-- Edition 1 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>Vol. 4 · Issue 12</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 15 June 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> Zambia's Digital Future – Inside the tech boom reshaping Lusaka.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 24 pages</span>
+                    <span><i class="fas fa-tag"></i> National</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 4.2 MB</span>
+                    <a href="#" class="btn-download" download="Real_Times_Vol4_Issue12.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edition 2 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>Vol. 4 · Issue 11</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 1 June 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> Agriculture & Climate – How Zambian farmers are adapting to changing weather patterns.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 28 pages</span>
+                    <span><i class="fas fa-tag"></i> Agriculture</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 5.1 MB</span>
+                    <a href="#" class="btn-download" download="Real_Times_Vol4_Issue11.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edition 3 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>Vol. 4 · Issue 10</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 15 May 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> Education Revolution – Zambia's push for digital learning in rural schools.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 22 pages</span>
+                    <span><i class="fas fa-tag"></i> Education</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 3.8 MB</span>
+                    <a href="#" class="btn-download" download="Real_Times_Vol4_Issue10.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edition 4 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>Vol. 4 · Issue 9</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 1 May 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> Tourism & Heritage – Celebrating Zambia's cultural treasures and national parks.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 26 pages</span>
+                    <span><i class="fas fa-tag"></i> Tourism</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 4.5 MB</span>
+                    <a href="#" class="btn-download" download="Real_Times_Vol4_Issue9.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edition 5 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>Vol. 4 · Issue 8</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 15 April 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> Business & Innovation – Zambian startups making waves in the African market.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 30 pages</span>
+                    <span><i class="fas fa-tag"></i> Business</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 6.2 MB</span>
+                    <a href="#" class="btn-download" download="Real_Times_Vol4_Issue8.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edition 6 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>Vol. 4 · Issue 7</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 1 April 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> Health & Wellness – Zambia's fight against malaria and the road to eradication.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 20 pages</span>
+                    <span><i class="fas fa-tag"></i> Health</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 3.5 MB</span>
+                    <a href="#" class="btn-download" download="Real_Times_Vol4_Issue7.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- DOWNLOAD ALL -->
+        <div class="download-all">
+            <div class="info">
+                <h3><i class="fas fa-archive" style="color:#8b2f2f;"></i> Download all editions</h3>
+                <p>Get the complete archive of The Real Times (Vol. 4, Issues 1–12) in one ZIP file.</p>
+            </div>
+            <a href="#" class="btn-download-all" download="Real_Times_Archive_Vol4.zip">
+                <i class="fas fa-file-archive"></i> Download all (85 MB)
+            </a>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div>
+                <strong>The Real Times Digital</strong> &nbsp;·&nbsp; Lusaka, Zambia · © 2026
+            </div>
+            <div class="social">
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-youtube"></i>
+                <i class="fab fa-linkedin"></i>
+            </div>
+        </footer>
+
+    </div>
+    <!-- end page -->
+</body>
+</html>
