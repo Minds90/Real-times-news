@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Real Times · Advertisement</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f8f6f3;
+            color: #1e1e1e;
+            line-height: 1.5;
+        }
+
+        /* container */
+        .page {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 3rem;
+        }
+
+        /* ----- header / brand ----- */
+            nav ul{
+   display:flex;
+   align-items:center;
+   background-color:white;
+   list-style:none;
+   padding:.5em;
+   margin:0;
+   border-bottom: black solid; 
+}
+li a{
+   color:rgba(99,13,50);
+   padding:.5em;
+   font-family: sans-serif;
+   font-size: large;
+   text-decoration: none;
+}
+li a:hover{
+   color:rgba(128, 0, 0, 0.712);
+   border-bottom: thin solid;
+  }
+  li a:active{
+   border-style:solid;
+   background-color:maroon;
+   color:white;
+   border-radius: 10px;
+   transition: 0.3s;
+  }
+.downloadbutton{
+   color: white;
+   background-color: rgba(99,13,50);
+   border-radius: 40px;
+}
+.downloadbutton:hover{
+   color: white;
+   background-color: rgba(121, 2, 2, 0.712) ;
+}
+.downloadbutton:active{
+   background-color: white;
+   color:rgba(99,13,50);
+   transition-duration: 1m;
+}
+ul{justify-content:flex-end;}
+.logo{
+   margin-right: auto;
+   height: auto;
+   width: 190px;
+}
+.sidenav{
+   height: 100%;
+   width: 0;
+   position: fixed;
+   z-index: 1;
+   top: 0;
+   left: 0;
+   background-color: #060420;
+   overflow-x: hidden;
+   padding-top: 60px;
+   transition: 0.5s;
+}
+.sidenav a {
+   padding: 8px 8px 8px 32px;
+   text-decoration: none;
+   font-size: 23px;
+   color: #818181;
+   display: block;
+   transition: 0.3s;
+   font-family: sans-serif;
+}
+.sidenav a:hover{color: rgb(48,74,131);}
+.sidenav .closed{
+   position: absolute;
+   top: 0;
+   right: 25px;
+   font-size: 36px;
+   margin-left: 50px;
+}
+.why-not{display: none;}
+        .brand-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0 1.2rem;
+            border-bottom: 2px solid #d4c9bc;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo-icon {
+            font-size: 2.6rem;
+            color: #8b2f2f;
+            background: #f0e8df;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #1f1a16;
+        }
+
+        .logo-text span {
+            color: #8b2f2f;
+            font-weight: 300;
+        }
+
+        .tagline {
+            font-size: 0.95rem;
+            background: #e6ded5;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            color: #2d241e;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* hero section */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2.5rem;
+            background: #f4eee8;
+            border-radius: 48px;
+            padding: 2.5rem 2.8rem;
+            margin-bottom: 3.5rem;
+            box-shadow: 0 12px 30px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        .hero-content {
+            flex: 1 1 300px;
+        }
+
+        .hero-content h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #1f1a16;
+            margin-bottom: 0.8rem;
+        }
+
+        .hero-content h2 i {
+            color: #8b2f2f;
+            font-size: 2.4rem;
+            margin-right: 0.3rem;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            color: #3f352e;
+            max-width: 550px;
+            margin-bottom: 1.8rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #2d241e;
+        }
+
+        .stat-item i {
+            color: #8b2f2f;
+            font-size: 1.5rem;
+        }
+
+        .hero-image {
+            flex: 1 1 260px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #d9cdc0;
+            border-radius: 32px;
+            padding: 1.8rem 1.2rem;
+            min-height: 180px;
+            background-image: radial-gradient(circle at 20% 30%, #e8ddd2 0%, #cbbcb0 100%);
+            box-shadow: inset 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        .hero-image i {
+            font-size: 7rem;
+            color: #4f3d32;
+            opacity: 0.5;
+        }
+
+        .hero-image .newspaper-icon {
+            font-size: 6.5rem;
+            color: #3f2d22;
+            opacity: 0.7;
+        }
+
+        /* section title */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 2.8rem 0 1.8rem;
+            color: #1f1a16;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .section-title i {
+            color: #8b2f2f;
+            font-size: 2rem;
+        }
+
+        .section-title span {
+            background: #e6ded5;
+            padding: 0.1rem 1rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #3f352e;
+        }
+
+        /* feature cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            padding: 2rem 1.5rem 1.8rem;
+            border-radius: 32px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.02);
+            border: 1px solid #ece4db;
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: #cbb8a8;
+            box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-card i {
+            font-size: 2.4rem;
+            color: #8b2f2f;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: #1f1a16;
+        }
+
+        .feature-card p {
+            color: #4d3f36;
+            font-size: 0.95rem;
+        }
+
+        /* pricing / plans */
+        .plans {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0 3rem;
+            justify-content: center;
+        }
+
+        .plan {
+            background: #ffffff;
+            border-radius: 40px;
+            padding: 2.2rem 2rem 2rem;
+            flex: 1 1 240px;
+            max-width: 300px;
+            border: 1px solid #e3d8ce;
+            text-align: center;
+            transition: 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        .plan:hover {
+            border-color: #b8a192;
+            box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        .plan.popular {
+            background: #f4ede7;
+            border-color: #8b2f2f;
+            position: relative;
+        }
+
+        .plan.popular::after {
+            content: "most popular";
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #8b2f2f;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .plan .price {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #1f1a16;
+            margin: 0.5rem 0 0.2rem;
+        }
+
+        .plan .price small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #5f4f42;
+        }
+
+        .plan .period {
+            color: #5f4f42;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .plan ul {
+            list-style: none;
+            text-align: left;
+            margin: 1.2rem 0 1.8rem;
+            padding: 0;
+        }
+
+        .plan ul li {
+            padding: 0.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.95rem;
+            color: #2d241e;
+        }
+
+        .plan ul li i {
+            color: #8b2f2f;
+            width: 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            background: #8b2f2f;
+            color: white;
+            font-weight: 600;
+            padding: 0.8rem 2.2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: 0.2s;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(139, 47, 47, 0.25);
+        }
+
+        .btn-cta:hover {
+            background: #6f2323;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(139, 47, 47, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #1f1a16;
+            box-shadow: none;
+            border: 1px solid #b8a192;
+        }
+
+        .btn-outline:hover {
+            background: #ece4db;
+            border-color: #8b2f2f;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        /* testimonials */
+        .testimonials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0 3rem;
+        }
+
+        .testimonial {
+            background: #fcf9f6;
+            padding: 1.8rem 2rem;
+            border-radius: 36px;
+            flex: 1 1 240px;
+            border: 1px solid #ece4db;
+        }
+
+        .testimonial i {
+            color: #8b2f2f;
+            font-size: 1.2rem;
+            margin-right: 0.3rem;
+            opacity: 0.6;
+        }
+
+        .testimonial .quote {
+            font-style: italic;
+            color: #2d241e;
+            font-size: 1rem;
+            margin: 0.6rem 0 0.3rem;
+        }
+
+        .testimonial .author {
+            font-weight: 600;
+            color: #1f1a16;
+        }
+
+        .testimonial .role {
+            font-size: 0.85rem;
+            color: #5f4f42;
+        }
+
+        /* footer */
+        .container{
+    background-color:#060420;
+    color:white;
+    margin-top:-5px;
+    margin-left: -27px;
+    margin-right: -27px;
+    display:flex;
+    justify-content:center;
+}
+.footer-content a{
+ display:block;
+ color:#818181;
+ text-decoration:none;
+ font-weight:400;
+ font-family: sans-serif;font-size: 19px;
+}
+.footer-content a:hover{
+   color:rgb(48,74,131) ;
+   transition: 0.3s;
+}
+.footer-content a:active{
+   color: aliceblue;
+}
+.footer-content{
+    padding:5px 50px 5px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+        /* responsive */
+        @media (max-width: 700px) {
+            .page {
+                padding: 1rem 1rem 2rem;
+            }
+            .hero {
+                padding: 2rem 1.5rem;
+                border-radius: 32px;
+            }
+            .hero-content h2 {
+                font-size: 2.2rem;
+            }
+            .logo-text {
+                font-size: 1.7rem;
+            }
+            .brand-header {
+                flex-direction: column;
+                align-items: start;
+                gap: 0.8rem;
+            }
+            .tagline {
+                font-size: 0.85rem;
+            }
+            nav ul{
+        display:flex; 
+      }
+      li a{
+         display: none;
+      }
+      .why-not{display: block;padding-right: 1x}
+      .container{
+         display:grid;}
+      .logo{text-align: center;
+         width: 150px;
+      }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h2 {
+                font-size: 1.8rem;
+            }
+            .plan {
+                max-width: 100%;
+                flex: 1 1 100%;
+            }
+               .sidenav {padding-top:15px}
+   .sidenav a {font-size: 18px;}
+   .why-not{display: contents;}
+   .Real{
+      font-size: 10px;
+   }
+        }
+    </style>
+</head>
+<body>
+       <div id="mysidenav" class="sidenav">
+      <a href="javascreipt:void(0)" class="closed" onclick="closeNav()">&times;</a>
+      <a href="">all-papers</a>
+      <a href="">contact-us</a>
+      <a href="">about-us</a>
+      <a href="RTDMAugust1.pdf" download="RDTM August 1">Download-Newspaper</a> 
+  </div>
+     <nav>
+        <ul id="sidenav">
+         <img class="logo" alt="real times news" src="Screenshot_20260803-211505_1.jpg">
+           <li>
+              <a href="">All-Papers</a>
+           </li>
+           <li>
+              <a href="">Contact-us</a>
+           </li>
+           <li>
+              <a  href="">About-us</a>
+           </li>
+           <li>
+              <a href="RTDMAugust1.pdf" class="downloadbutton" download="1 August 2026">Download-Newspaper</a>
+           </li>
+           <span class="why-not" style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776;</span>
+         </ul>
+     </nav>
+    <div class="page">
+
+        <!-- HEADER -->
+        <header class="brand-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="logo-text">
+                    The Real <span>Times</span>
+                </div>
+            </div>
+            <div class="tagline">
+                <i class="fas fa-check-circle" style="color:#8b2f2f;"></i> independent · digital · since 2020
+            </div>
+        </header>
+
+        <!-- HERO / ADVERTISEMENT -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>
+                    <i class="fas fa-bolt"></i> Truth in your pocket
+                </h2>
+                <p>
+                    <strong>The Real Times Digital</strong> delivers fact‑based journalism,
+                    deep analysis, and live updates — without the noise. 
+                    <br />Read anywhere, anytime.
+                </p>
+                <div class="hero-stats">
+                    <span class="stat-item"><i class="fas fa-users"></i> +8.4k readers</span>
+                    <span class="stat-item"><i class="fas fa-globe"></i> 10 province</span>
+                    <span class="stat-item"><i class="fas fa-clock"></i> 24/7 newsroom</span>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-newspaper newspaper-icon"></i>
+                <!-- decorative icon -->
+            </div>
+        </section>
+
+        <!-- FEATURES (advertising) -->
+        <div class="section-title">
+            <i class="fas fa-star"></i> Why choose The Real Times
+            <span>digital</span>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Unbiased reporting</h3>
+                <p>Independent journalism with multiple sources, fact‑checked and transparent.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Mobile first</h3>
+                <p>Read on any device — app, web, or offline mode. Beautiful and fast.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-podcast"></i>
+                <h3>Audio & video</h3>
+                <p>Daily podcasts, documentaries, and live briefings from our global team.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-lock"></i>
+                <h3>No paywalls</h3>
+                <p>Essential news is free. Premium subscriptions unlock in‑depth investigations.</p>
+            </div>
+        </div>
+
+        <!-- SUBSCRIPTION PLANS (advertising) -->
+        <div class="section-title">
+            <i class="fas fa-tags"></i> Choose your plan
+            <span>start free trial</span>
+        </div>
+
+        <div class="plans">
+            <!-- Basic -->
+            <div class="plan">
+                <h3>Digital Basic</h3>
+                <div class="price">$0 <small>/mo</small></div>
+                <div class="period">forever free</div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Daily headlines</li>
+                    <li><i class="fas fa-check"></i> Top 10 stories</li>
+                    <li><i class="fas fa-check"></i> Weekly newsletter</li>
+                    <li><i class="fas fa-check"></i> Ad‑supported</li>
+                </ul>
+                <a href="#" class="btn-cta btn-outline">Get started</a>
+            </div>
+
+            <!-- Premium (popular) -->
+            <div class="plan popular">
+                <h3>Premium</h3>
+                <div class="price">$12 <small>/mo</small></div>
+                <div class="period">billed monthly</div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Unlimited articles</li>
+                    <li><i class="fas fa-check"></i> Investigative reports</li>
+                    <li><i class="fas fa-check"></i> Ad‑free experience</li>
+                    <li><i class="fas fa-check"></i> Offline reading</li>
+                    <li><i class="fas fa-check"></i> Early access to events</li>
+                </ul>
+                <a href="#" class="btn-cta">Start 7‑day trial</a>
+            </div>
+
+            <!-- Family -->
+            <div class="plan">
+                <h3>Family</h3>
+                <div class="price">$20 <small>/mo</small></div>
+                <div class="period">up to 5 members</div>
+                <ul>
+                    <li><i class="fas fa-check"></i> All Premium features</li>
+                    <li><i class="fas fa-check"></i> 5 separate logins</li>
+                    <li><i class="fas fa-check"></i> Kids‑safe content</li>
+                    <li><i class="fas fa-check"></i> Shared bookmarks</li>
+                </ul>
+                <a href="#" class="btn-cta btn-outline">Learn more</a>
+            </div>
+        </div>
+
+        <!-- TESTIMONIALS (social proof) -->
+        <div class="section-title" style="margin-top:1rem;">
+            <i class="fas fa-quote-left"></i> What readers say
+        </div>
+
+        <div class="testimonials">
+            <div class="testimonial">
+                <i class="fas fa-quote-right"></i>
+                <div class="quote">“The most balanced digital news I’ve read. No clickbait, just real journalism.”</div>
+                <div class="author">— Maria K.</div>
+                <div class="role">teacher, Berlin</div>
+            </div>
+            <div class="testimonial">
+                <i class="fas fa-quote-right"></i>
+                <div class="quote">“I love the audio briefings. Perfect for my commute. Real Times keeps me informed.”</div>
+                <div class="author">— James O.</div>
+                <div class="role">software dev, London</div>
+            </div>
+            <div class="testimonial">
+                <i class="fas fa-quote-right"></i>
+                <div class="quote">“Finally a newspaper that respects my time and intelligence. Worth every cent.”</div>
+                <div class="author">— Aisha R.</div>
+                <div class="role">journalist, Nairobi</div>
+            </div>
+        </div>
+
+        <!-- FINAL CALL TO ACTION (advertising) -->
+        <div style="text-align: center; background: #f4eee8; border-radius: 60px; padding: 2.2rem 1.5rem; margin: 1.5rem 0 0;">
+            <h3 style="font-size: 1.8rem; font-weight: 600; color: #1f1a16;">
+                <i class="fas fa-play-circle" style="color:#8b2f2f;"></i> Join 9.4k readers
+            </h3>
+            <p style="max-width: 500px; margin: 0.5rem auto 1.4rem; color: #3f352e;">
+                Start your free trial today. No credit card required.
+            </p>
+            <a href="#" class="btn-cta" style="font-size:1.1rem; padding: 0.9rem 3rem;">
+                <i class="fas fa-arrow-right"></i> Get The Real Times
+            </a>
+        </div>
+
+        <!-- FOOTER -->
+        <br>
+        <footer>
+                    <div class="container">
+      <div class="footer-content">
+        <h4>Service</h4>
+        <a href="">Advertise</a><br>
+        <a href="">report incident</a>
+     </div>
+     <div class="footer-content">
+        <h4>Follo-us</h4>
+        <a href="">facebook</a><br>
+        <a href="">whatsApp</a>
+     </div>
+     <div class="footer-content">
+        <h4>Polices</h4>
+        <a href="">content</a><br>
+        <a href="">content</a>      
+     </div>
+     <div class="footer-content" >
+       <h4>Partners</h4>
+       <a href="">content</a><br>
+       <a href="">content</a>
+     </div>
+     </div>
+<div class="copyright">
+              <div>
+        <strong>The Real Times Digital</strong> &nbsp;·&nbsp; Lusaka, Zambia · © 2026
+      </div>
+    </div> 
+        </footer>
+
+    </div>
+    <!-- end page -->
+</body>
+<script>
+    function openNav(){
+    document.getElementById("mysidenav").style.width="250px";
+}
+function closeNav(){
+    document.getElementById("mysidenav").style.width="0"
+}
+</script>
+</html>
