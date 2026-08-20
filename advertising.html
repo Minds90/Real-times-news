@@ -55,20 +55,6 @@ li a:hover{
    border-radius: 10px;
    transition: 0.3s;
   }
-.downloadbutton{
-   color: white;
-   background-color: rgba(99,13,50);
-   border-radius: 40px;
-}
-.downloadbutton:hover{
-   color: white;
-   background-color: rgba(121, 2, 2, 0.712) ;
-}
-.downloadbutton:active{
-   background-color: white;
-   color:rgba(99,13,50);
-   transition-duration: 1m;
-}
 ul{justify-content:flex-end;}
 .logo{
    margin-right: auto;
@@ -554,14 +540,17 @@ ul{justify-content:flex-end;}
 <body>
        <div id="mysidenav" class="sidenav">
       <a href="javascreipt:void(0)" class="closed" onclick="closeNav()">&times;</a>
+      <a href="index.html">home</a>
       <a href="allpapers.html">all-papers</a>
       <a href="contact.html">contact-us</a>
       <a href="about.html">about-us</a>
-      <a href="" download="RDTM August 1">Download-Newspaper</a> 
   </div>
      <nav>
         <ul id="sidenav">
          <img class="logo" alt="real times news" src="Screenshot_20260803-211505_1.jpg">
+            <li>
+                <a href="index.html">home</a>
+            </li>
            <li>
               <a href="allpapers.html">All-Papers</a>
            </li>
@@ -570,9 +559,6 @@ ul{justify-content:flex-end;}
            </li>
            <li>
               <a  href="about.html">About-us</a>
-           </li>
-           <li>
-              <a href="" class="downloadbutton" download="1 August 2026">Download-Newspaper</a>
            </li>
            <span class="why-not" style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776;</span>
          </ul>
