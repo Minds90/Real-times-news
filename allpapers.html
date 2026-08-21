@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Real Times · Newspaper Archive</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f8f6f3;
+            color: #1e1e1e;
+            line-height: 1.6;
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem 3rem;
+        }
+
+        /* ----- header / brand (consistent) ----- */
+  nav ul{
+   display:flex;
+   align-items:center;
+   background-color:white;
+   list-style:none;
+   padding:.5em;
+   margin:0;
+   border-bottom: black solid; 
+}
+li a{
+   color:rgba(99,13,50);
+   padding:.5em;
+   font-family: sans-serif;
+   font-size: large;
+   text-decoration: none;
+}
+li a:hover{
+   color:rgba(128, 0, 0, 0.712);
+   border-bottom: thin solid;
+  }
+  li a:active{
+   border-style:solid;
+   background-color:maroon;
+   color:white;
+   border-radius: 10px;
+   transition: 0.3s;
+  }
+ul{justify-content:flex-end;}
+
+.logo{
+   margin-right: auto;
+   height: auto;
+   width: 190px;
+}
+}
+h4{
+  font-size:20px;
+  font-family:Arial,helvetica,sans-serif;
+}
+.sidenav{
+   height: 100%;
+   width: 0;
+   position: fixed;
+   z-index: 1;
+   top: 0;
+   left: 0;
+   background-color: #060420;
+   overflow-x: hidden;
+   padding-top: 60px;
+   transition: 0.5s;
+}
+.sidenav a {
+   padding: 8px 8px 8px 32px;
+   text-decoration: none;
+   font-size: 23px;
+   color: #818181;
+   display: block;
+   transition: 0.3s;
+   font-family: sans-serif;
+}
+.sidenav a:hover{color: rgb(48,74,131);}
+.sidenav .closed{
+   position: absolute;
+   top: 0;
+   right: 25px;
+   font-size: 36px;
+   margin-left: 50px;
+}
+.why-not{display: none;}
+        .brand-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0 1.2rem;
+            border-bottom: 2px solid #d4c9bc;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo-icon {
+            font-size: 2.4rem;
+            color: #8b2f2f;
+            background: #f0e8df;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #1f1a16;
+        }
+
+        .logo-text span {
+            color: #8b2f2f;
+            font-weight: 300;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            background: #e6ded5;
+            padding: 0.35rem 1.2rem;
+            border-radius: 40px;
+            color: #2d241e;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* page title */
+        .page-title {
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f1a16;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .page-title h1 i {
+            color: #8b2f2f;
+        }
+
+        .page-title p {
+            color: #4d3f36;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-top: 0.2rem;
+        }
+
+        .page-title .archive-badge {
+            background: #e6ded5;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 0.3rem;
+        }
+
+        /* newspaper grid */
+        .newspaper-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 1.5rem 0 2.5rem;
+        }
+
+        .newspaper-card {
+            background: #ffffff;
+            border-radius: 32px;
+            border: 1px solid #ece4db;
+            padding: 1.8rem 1.8rem 1.8rem;
+            transition: 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .newspaper-card:hover {
+            border-color: #b8a192;
+            box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.06);
+            transform: translateY(-3px);
+        }
+
+        .newspaper-card .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .newspaper-card .card-header .edition-icon {
+            font-size: 2.2rem;
+            color: #8b2f2f;
+            background: #f4eee8;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .newspaper-card .card-header .edition-info {
+            flex: 1;
+        }
+
+        .newspaper-card .card-header .edition-info h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f1a16;
+            line-height: 1.2;
+        }
+
+        .newspaper-card .card-header .edition-info .date {
+            font-size: 0.85rem;
+            color: #5f4f42;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .newspaper-card .description {
+            color: #3f352e;
+            font-size: 0.95rem;
+            margin: 0.3rem 0 0.8rem;
+            flex: 1;
+        }
+
+        .newspaper-card .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 1.2rem;
+            font-size: 0.8rem;
+            color: #5f4f42;
+            margin: 0.3rem 0 1rem;
+            padding-top: 0.4rem;
+            border-top: 1px solid #f0e8df;
+        }
+
+        .newspaper-card .meta span i {
+            color: #8b2f2f;
+            width: 1.2rem;
+        }
+
+        .newspaper-card .download-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+            margin-top: auto;
+            padding-top: 0.8rem;
+            border-top: 1px solid #ece4db;
+        }
+
+        .newspaper-card .download-row .file-size {
+            font-size: 0.8rem;
+            color: #5f4f42;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #8b2f2f;
+            color: white;
+            font-weight: 600;
+            padding: 0.6rem 1.6rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(139, 47, 47, 0.2);
+        }
+
+        .btn-download:hover {
+            background: #6f2323;
+            transform: scale(1.02);
+            box-shadow: 0 6px 16px rgba(139, 47, 47, 0.3);
+        }
+
+        .btn-download i {
+            font-size: 1rem;
+        }
+
+        /* download all section */
+        .download-all {
+            background: #f4eee8;
+            border-radius: 48px;
+            padding: 1.8rem 2.5rem;
+            margin: 2rem 0 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .download-all .info h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1f1a16;
+        }
+
+        .download-all .info p {
+            color: #3f352e;
+            font-size: 0.95rem;
+        }
+
+        .btn-download-all {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #1f1a16;
+            color: white;
+            font-weight: 600;
+            padding: 0.8rem 2.2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-download-all:hover {
+            background: #3f352e;
+            transform: scale(1.02);
+        }
+
+        /* footer */
+        .container{
+    background-color:#060420;
+    color:white;
+    margin-top:-5px;
+    margin-left: -27px;
+    margin-right: -27px;
+    display:flex;
+    justify-content:center;
+}
+.footer-content a{
+ display:block;
+ color:#818181;
+ text-decoration:none;
+ font-weight:400;
+ font-family: sans-serif;font-size: 19px;
+}
+.footer-content a:hover{
+   color:rgb(48,74,131) ;
+   transition: 0.3s;
+}
+.footer-content a:active{
+   color: aliceblue;
+}
+.footer-content{
+    padding:5px 50px 5px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+        /* responsive */
+        @media (max-width: 700px) {
+             nav ul{
+        display:flex; 
+      }
+      li a{
+         display: none;
+      }
+      .why-not{display: block;padding-right: 1x}
+      .container{
+         display:grid;}
+      .logo{text-align: center;
+         width: 150px;
+      }
+            .page {
+                padding: 1rem 1rem 2rem;
+            }
+            .logo-text {
+                font-size: 1.7rem;
+            }
+            .brand-header {
+                flex-direction: column;
+                align-items: start;
+                gap: 0.6rem;
+            }
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            .newspaper-grid {
+                grid-template-columns: 1fr;
+            }
+            .download-all {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .newspaper-card .download-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-download {
+                justify-content: center;
+            }
+               .sidenav {padding-top:15px}
+             .sidenav a {font-size: 18px;}
+             .why-not{display: contents;}
+            .Real{font-size: 10px;}
+        }
+    </style>
+</head>
+<body>
+       <div id="mysidenav" class="sidenav">
+      <a href="javascreipt:void(0)" class="closed" onclick="closeNav()">&times;</a>
+      <a href="index.html">home</a>
+      <a href="allpapers.html">newspaper-archives</a>
+      <a href="contact.html">contact-us</a>
+      <a href="about.html">about-us</a>
+  </div>
+     <nav>
+        <ul id="sidenav">
+         <img class="logo" alt="real times news" src="Screenshot_20260803-211505_1.jpg">
+            <li>
+                <a href="index.html">home</a>
+            </li>
+           <li>
+              <a href="allpapers.html">newspaper-archives</a>
+           </li>
+           <li>
+              <a href="contact.html">Contact-us</a>
+           </li>
+           <li>
+              <a  href="about.html">About-us</a>
+           </li>
+           <span class="why-not" style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776;</span>
+         </ul>
+     </nav>
+    <div class="page">
+
+        <!-- header -->
+        <header class="brand-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="logo-text">
+                    The Real <span>Times</span>
+                </div>
+            </div>
+            <div class="tagline">
+                <i class="fas fa-archive" style="color:#8b2f2f;"></i> Digital archive · Zambia
+            </div>
+        </header>
+
+        <!-- page title -->
+        <div class="page-title">
+            <h1>
+                <i class="fas fa-newspaper"></i> Newspaper Archive
+            </h1>
+            <p>
+                Browse and download past editions of <strong>The Real Times</strong>.
+                All editions are available as high-quality PDFs.
+            </p>
+            <div class="archive-badge">
+                <i class="fas fa-check-circle" style="color:#8b2f2f;"></i> 2026 August Edition available
+            </div>
+        </div>
+        <!-- NEWSPAPER LIST -->
+        <div class="newspaper-grid">
+            <!-- Edition 16 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 16</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 19 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> kafwaya is dead.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i>politics </span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 1.43 MB</span>
+                    <a href="Archive/2026/August/RTDM August 19, 2026.pdf" class="btn-download" download="RTDM august 19,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+            <!-- Edition 15 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 15</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 18 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> Embrace losing you camps.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i>politics </span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 9.40 MB</span>
+                    <a href="Archive/2026/August/RTDM August 18, 2026.pdf" class="btn-download" download="RTDM august 18,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+            <!-- Edition 14 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 14</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 17 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> HH continues.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i>politics </span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 1.56 MB</span>
+                    <a href="Archive/2026/August/RTDM August 17, 2026.pdf" class="btn-download" download="RTDM august 17,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+            <!-- Edition 13 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 13</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 15 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> can tables turn.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i>politics </span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 2.02 MB</span>
+                    <a href="Archive/2026/August/RTDM August 15, 2026.pdf" class="btn-download" download="RTDM august 15,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+            <!-- Edition 12 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 12</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 14 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> courting continues.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i>politics </span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 3.28 MB</span>
+                    <a href="Archive/2026/August/RTDM August 14, 2026.pdf" class="btn-download" download="RTDM august 14,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+            <!-- Edition 11 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 11</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 13 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> august 13 verdict delivered.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i> local</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 11.86 MB</span>
+                    <a href="Archive/2026/August/RTDM August 13, 2026.pdf" class="btn-download" download="RTDM august 13,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+            <!-- Edition 10 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 10</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 12 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> The hour has come .
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i>politics </span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 2.99 MB</span>
+                    <a href="Archive/2026/August/RTDM August 12, 2026.pdf" class="btn-download" download="RTDM august 12,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+            <!-- Edition 9 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 9</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 11 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> ECZ bars binwell.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i> ECZ</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 10.96 MB</span>
+                    <a href="Archive/2026/August/RTDM August 11, 2026.pdf" class="btn-download" download="RTDM august 11,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+            <!-- Edition 8 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 8</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 10 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong>voters card for salt?.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i> voters</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 1.64 MB</span>
+                    <a href="Archive/2026/August/RTDM AUGUST 10, 2026.pdf" class="btn-download" download="RTDM august 10,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+            <!-- Edition 7 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 7</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 8 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> wait more teachers.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i> National</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 2.30 MB</span>
+                    <a href="Archive/2026/August/RTDM August 8, 2026.pdf" class="btn-download" download="RTDM august 8,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+    </div>
+            
+            <!-- Edition 6 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 6</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 7 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong>  let as pray.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i> National</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 3.17 MB</span>
+                    <a href="Archive/2026/August/RTDM August 7, 2026.pdf" class="btn-download" download="RTDM august 7, 2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edition 5 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 5</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 6 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> It's staged managed.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i> managed</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 3.57 MB</span>
+                    <a href="Archive/2026/August/RTDM August 6, 2026.pdf" class="btn-download" download="RTDM august 6, 2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edition 4 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 4</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 5 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> ‘Barotseland agreement resurfaces.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i> Education</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 3.44 MB</span>
+                    <a href="Archive/2026/August/RTDM August 5, 2026.pdf" class="btn-download" download="RTDM august 5,2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edition 3 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 3</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 4 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> Apply for Force of the law.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i> politics</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 10.6 MB</span>
+                    <a href="Archive/2026/August/RTDM August 4, 2026.pdf" class="btn-download" download="RTDM august 4, 2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edition 2 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 2</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 3 August 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> violence after a peace treaty.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i> Business</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 6.2 MB</span>
+                    <a href="Archive/2026/August/RTDM August 3, 2026.pdf" class="btn-download" download="RTDM August 3, 2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+            <!-- August Edition 1 -->
+            <div class="newspaper-card">
+                <div class="card-header">
+                    <div class="edition-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="edition-info">
+                        <h3>aug. 8 · Issue 1</h3>
+                        <div class="date"><i class="far fa-calendar-alt"></i> 1 august 2026</div>
+                    </div>
+                </div>
+                <div class="description">
+                    <strong>Headline:</strong> Tik tok ticked off.
+                </div>
+                <div class="meta">
+                    <span><i class="fas fa-file-alt"></i> 4 pages</span>
+                    <span><i class="fas fa-tag"></i> Health</span>
+                </div>
+                <div class="download-row">
+                    <span class="file-size"><i class="fas fa-database"></i> 3.5 MB</span>
+                    <a href="Archive/2026/August/RTDM August 1, 2026.pdf" class="btn-download" download="RTDM august 1, 2026.pdf">
+                        <i class="fas fa-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- DOWNLOAD ALL -->
+        <div class="download-all">
+            <div class="info">
+                <h3><i class="fas fa-archive" style="color:#8b2f2f;"></i> Download all August editions</h3>
+                <p>Get the complete archive of The Real Times 2026 August Edition (Vol.1 to 15, Issues 1–12) in one ZIP file.</p>
+            </div>
+            <a href="#" class="btn-download-all" download="Real_Times_Archive_Vol4.zip">
+                <i class="fas fa-file-archive"></i> Download all (85 MB)
+            </a>
+        </div>
+
+        <!-- FOOTER -->
+        <br>
+        <footer>
+                <div class="container">
+      <div class="footer-content">
+        <h4>Service</h4>
+        <a href="advertising.html">Advertise</a><br>
+        <a href="report2.html">report incident</a>
+     </div>
+     <div class="footer-content">
+        <h4>Follo-us</h4>
+        <a href="">facebook</a><br>
+        <a href="">whatsApp</a>
+     </div>
+     <div class="footer-content">
+        <h4>Polices</h4>
+        <a href="">content</a><br>
+        <a href="">content</a>      
+     </div>
+     <div class="footer-content" >
+       <h4>Partners</h4>
+       <a href="">content</a><br>
+       <a href="">content</a>
+     </div>
+     </div>
+            <div>
+                <strong>The Real Times Digital Newspaper</strong> &nbsp;·&nbsp; Lusaka, Zambia · © 2026
+            </div>
+        </footer>
+
+    </div>
+    <!-- end page -->
+</body>
+<script>
+    function openNav(){
+    document.getElementById("mysidenav").style.width="250px";
+}
+function closeNav(){
+    document.getElementById("mysidenav").style.width="0"
+}
+</script>
+</html>
